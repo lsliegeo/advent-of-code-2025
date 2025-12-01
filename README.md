@@ -1,4 +1,4 @@
-# Advent of code 2024
+# Advent of code 2025
 
 ## Download inputs
 Bash script `download_inputs.sh` to download all available inputs and store them in the `input/` folder.
