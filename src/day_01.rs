@@ -1,6 +1,6 @@
 use std::fs;
 
-const SAMPLE_INPUT: &str = "L68
+const SAMPLE_INPUT: &'static str = "L68
 L30
 R48
 L5
