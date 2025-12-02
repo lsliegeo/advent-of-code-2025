@@ -1,0 +1,7 @@
+use std::fs;
+
+pub fn parse_file(day: isize) -> String {
+    let file_name = format!("input/{:02}.txt", day);
+    fs::read_to_string(file_name)
+        .unwrap_or_else(|_| panic!("Can't open input file for file {}", day))
+}

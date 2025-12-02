@@ -1,4 +1,5 @@
-use std::fs;
+mod parse_input_file;
+use parse_input_file::parse_file;
 
 const SAMPLE_INPUT: &'static str = "L68
 L30
@@ -26,12 +27,6 @@ fn main() {
         "Solution for part two is: {}",
         part_two(parse_input(parse_file(1)))
     );
-}
-
-fn parse_file(day: isize) -> String {
-    let file_name = format!("input/{:02}.txt", day);
-    fs::read_to_string(file_name)
-        .unwrap_or_else(|_| panic!("Can't open input file for file {}", day))
 }
 
 fn parse_input(raw_input: String) -> Vec<(char, usize)> {
