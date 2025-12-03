@@ -75,16 +75,13 @@ fn part_one(input: Vec<Vec<usize>>) -> usize {
     total_joltage
 }
 
-fn max_with_index_stupid(vector: &[usize]) -> (usize, usize) {
-    let mut max_index: usize = 0;
-    let mut max_value: usize = 0;
-    for (index, &value) in vector.iter().enumerate() {
-        if value > max_value {
-            max_index = index;
-            max_value = value;
-        }
-    }
-    (max_index, max_value)
+fn max_with_index(vector: &[usize]) -> (usize, &usize) {
+    // multiple element with the same greatest value --> returns the one with the lowest index
+    vector
+        .iter()
+        .enumerate()
+        .max_by_key(|&(index, &value)| (value, -(index as isize)))
+        .unwrap()
 }
 
 fn max_joltage(batteries: Vec<usize>, number_batteries: usize) -> usize {
@@ -92,7 +89,7 @@ fn max_joltage(batteries: Vec<usize>, number_batteries: usize) -> usize {
     let mut index: usize = 0;
     for i in 0..number_batteries {
         let number_batteries_to_pick_afterwards = number_batteries - i - 1;
-        let (max_index, max_value) = max_with_index_stupid(
+        let (max_index, &max_value) = max_with_index(
             &batteries[index..batteries.len() - number_batteries_to_pick_afterwards],
         );
         index += max_index + 1;
