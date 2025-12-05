@@ -55,17 +55,18 @@ fn part_two((mut fresh_id_ranges, _): (Vec<(usize, usize)>, Vec<usize>)) -> usiz
     // As long as ranges have overlap, merge them
     loop {
         let mut to_merge: Option<(usize, usize)> = None;
-        'abc: for (i, range_1) in fresh_id_ranges.iter().enumerate() {
+        'look_for_ranges_to_merge: for (i, range_1) in fresh_id_ranges.iter().enumerate() {
             for (j, range_2) in fresh_id_ranges.iter().enumerate().skip(i + 1) {
                 if ranges_have_overlap(range_1, range_2) {
                     to_merge = Some((i, j));
-                    break 'abc;
+                    break 'look_for_ranges_to_merge;
                 }
             }
         }
 
         if let Some((i, j)) = to_merge {
-            fresh_id_ranges[i] = merge_ranges(&fresh_id_ranges[i], &fresh_id_ranges[j]);
+            fresh_id_ranges[i].0 = std::cmp::min(fresh_id_ranges[i].0, fresh_id_ranges[j].0);
+            fresh_id_ranges[i].1 = std::cmp::max(fresh_id_ranges[i].1, fresh_id_ranges[j].1);
             fresh_id_ranges.remove(j);
         } else {
             break;
@@ -81,11 +82,4 @@ fn part_two((mut fresh_id_ranges, _): (Vec<(usize, usize)>, Vec<usize>)) -> usiz
 
 fn ranges_have_overlap(range1: &(usize, usize), range2: &(usize, usize)) -> bool {
     range1.0 <= range2.1 && range2.0 <= range1.1
-}
-
-fn merge_ranges(range1: &(usize, usize), range2: &(usize, usize)) -> (usize, usize) {
-    (
-        std::cmp::min(range1.0, range2.0),
-        std::cmp::max(range1.1, range2.1),
-    )
 }
